@@ -1,0 +1,486 @@
+﻿<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="utf-8">
+                <title>巴那那</title>
+                <link href="stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
+                <link rel="stylesheet" href="http://yandex.st/highlightjs/7.1/styles/pojoaque.min.css" type="text/css">
+                <script src="scripts/highlight.js"></script>
+                <script src="scripts/jquery.js"></script>
+                <script src="/socket.io/socket.io.js"></script>
+                <script src="scripts/main.js"></script>
+        </head>
+        <body>
+            <div id="iam">
+                <form><input placeholder="我是"></form>
+            </div>
+            <article>
+                <nav>
+                    <ol>
+                        <li><a href="#0">準備好</a></li>
+                        <li><a href="#1">架伺服器</a></li>
+                        <li><a href="#2">加入 socket.io</a></li>
+                        <li><a href="#3">連線!!</a></li>
+                        <li><a href="#4">傳送訊息！</a></li>
+                    </ol>
+                </nav>
+                <section id="0">
+                    <h2>準備好</h2>
+                    <ol>
+                        <li>裝好你最喜歡的文字編輯器</li>
+                        <li>裝好 <a href="https://www.google.com/chrome/">Google Chrome</a></li>
+                        <li>裝好 <a href="http://nodejs.org/">Node</a></li>
+                    </ol>
+                    <p>因為今天要來寫個網頁聊天室 A_A</p>
+                </section>
+                <section id="1">
+                    <h2>架伺服器</h2>
+                    <p>
+                        我們聊天室的機器會用 Node 架<br>
+                        這台機器要會能夠
+                    </p>
+                    <ol>
+                        <li>送網頁</li>
+                        <li>讓人家聊天</li>
+                    </ol>
+                    <p>
+                        所以我們要先架個網頁伺服器<br>
+                        然後在加上一些功能讓人家能夠聊天
+                    </p>
+                    <h3>Express</h3>
+                    <p>
+                        想要架個網頁伺服器可以自己用 http 模組從頭開始寫<br>
+                        但是要寫你自己寫，我要去用人家寫好的 :D
+                    </p>
+                    <p>
+                        <a href="http://expressjs.com/">Express</a>是一套網頁伺服器，像 Apache 那種東西</a><br>
+                        要做 routing、要渲染模版、要插 middleware 什麼的想幹嘛都可以
+                    </p>
+                    <h3>安裝 Express</h3>
+                    <pre>
+                        <code class="bash">
+npm install express
+                        </code>
+                    </pre>
+                    <p>
+                        裝好之後就可以直接用了
+                    </p>
+                    <pre>
+                        <code class="javascript">
+// app.js
+var express = require('express');
+var http    = require('http');
+var path    = require('path');
+
+var app = express();
+
+app.configure(function () {
+    app.use(express.static(path.join(__dirname, './public')));
+});
+
+var server = http.createServer(app)
+
+server.listen(4000);
+
+                        </code>
+                    </pre>
+                    <p>
+                        放個網頁在 public 資料夾
+                    </p>
+                    <pre>
+                        <code class="html">
+// public/index.html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>撲嚕嚕</title>
+    </head>
+    <body>
+        <p>hello</p>
+    </body>
+</html>
+
+                        </code>
+                    </pre>
+                    <p>
+                        然後跑跑看
+                    </p>
+
+                    <pre>
+                        <code class="bash">
+node app.js
+                        </code>
+                    </pre>
+                    <p>
+                        這時候去你的 http://localhost:4000 看應該就會有個網頁說 hello 了
+                    </p>
+                </section>
+                <section id="2">
+                    <h2>加入 socket.io</h2>
+                    <p>
+                        這時候我們要幫我們的 express 掛上 <a href="http://socket.io">socket.io</a>
+                    </p>
+                    <h3>安裝 socket.io</h3>
+                    <pre>
+                        <code class="bash">
+npm install socket.io
+                        </code>
+                    </pre>
+                    <p>
+                        然後多加個兩行
+                    </p>
+                    <pre>
+                        <code class="javascript">
+// app.js
+var express = require('express');
+var http    = require('http');
+var path    = require('path');
+var io      = require('socket.io'); // <= 這行
+
+var app = express();
+
+app.configure(function () {
+    app.use(express.static(path.join(__dirname, './public')));
+});
+
+var server = http.createServer(app);
+
+io = io.listen(server); // <= 還有這行
+
+server.listen(4000);
+
+                        </code>
+                    </pre>
+                    <p>
+                        重開看看，沒有噴 error 的話應該就是沒有爆炸了
+                    </p>
+
+                    <pre>
+                        <code class="bash">
+node app.js
+                        </code>
+                    </pre>
+                </section>
+                <section id="3">
+                    <h2>連線！！</h2>
+                    <p>
+                        現在後面機器裝好換前面了！<br>
+                        在網頁裡放些 script
+                    </p>
+                    <pre class="html">
+                        <code class="html">
+// public/index.html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>撲嚕嚕</title>
+        <script src="jquery.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <p>hello</p>
+    </body>
+</html>
+
+                        </code>
+                    </pre>
+                    <p>
+                        <a href="scripts/jquery.js">要抓 jQuery 請直接點我</a><br>
+                        socket.io.js 會自己送上！<br>
+                        我們扣的放在 main.js 
+                    </p>
+                    <pre>
+                        <code class="javascript">
+// public/main.js
+$(function () {
+    console.log('hello');
+    console.log(io);
+});
+
+
+
+                        </code>
+                    </pre>
+                    <p>
+                        如果成功的話應該會印出個 hello 還有一個叫做 io 的野生物件<br>
+                        這是 socket.io 幫我們放進來的
+                    </p>
+                    <pre>
+                        <code class="bash">
+hello
+[Object]
+                        </code>
+                    </pre>
+                    <p>
+                        跟後端連線！
+                    </p>
+                    <pre>
+                        <code class="javascript">
+// public/main.js
+$(function () {
+    var socket = io.connect();
+});
+
+
+                        </code>
+                    </pre>
+                    <p>
+                        但是後端要在多加己行扣的
+                    </p>
+                    <pre>
+                        <code class="javascript">
+
+// app.js
+
+//
+//  Express
+//
+
+var express = require('express');
+var http    = require('http');
+var path    = require('path');
+var io      = require('socket.io');
+
+var app = express();
+
+app.configure(function () {
+    app.use(express.static(path.join(__dirname, './public')));
+});
+
+var server = http.createServer(app);
+
+io = io.listen(server);
+
+server.listen(4000);
+
+//
+//  Socket.io
+//
+
+io.sockets.on('connection', function (socket) {
+    console.log('有人連過來了!!');
+})
+
+                        </code>
+                    </pre>
+                    <p>
+                        改完扣的記得要重開機器<br>
+                        開好之後去瀏覽器重新載入一下，成功的話機器應該會噴字
+                    </p>
+                    <pre>
+                        <code class="bash">
+有人連過來了！！
+                        </code>
+                    </pre>
+                    <p>
+                        <img src="adam.png" width="800">
+                    </p>
+                </section>
+                <section id="4">
+                    <h2>傳送訊息！</h2>
+                    <p>
+                        連線成功之後，互相打個招呼吧 A_A<br>
+                    </p>
+                    <h3>從後端傳訊息到前端</h3>
+                    <pre>
+                        <code class="javascript">
+
+// app.js
+
+//
+//  Express
+//
+
+var express = require('express');
+var http    = require('http');
+var path    = require('path');
+var io      = require('socket.io');
+
+var app = express();
+
+app.configure(function () {
+    app.use(express.static(path.join(__dirname, './public')));
+});
+
+var server = http.createServer(app);
+
+io = io.listen(server);
+
+server.listen(4000);
+
+//
+//  Socket.io
+//
+
+io.sockets.on('connection', function (socket) {
+    console.log('有人連過來了!!');
+
+    socket.emit('hello', '我是伺服器！');
+
+})
+
+                        </code>
+                    </pre>
+                    <p>
+                        後端打電話過來前端也要有人接
+                    </p>
+                    <pre>
+                        <code class="javascript">
+// public/main.js
+$(function () {
+    var socket = io.connect();
+    socket.on('hello', function (data) {
+        console.log(data);
+    });
+});
+
+
+
+                        </code>
+                    </pre>
+                    <p>
+                        機器重開瀏覽器重載完之後
+                    </p>
+                    <pre>
+                        <code class="bash">
+我是伺服器！
+                        </code>
+                    </pre>
+                    <h3>從前端傳訊息到後端</h3>
+                    <p>
+                        換從前端打回去
+                    </p>
+                    <pre>
+                        <code class="javascript">
+// public/main.js
+$(function () {
+    var socket = io.connect();
+    socket.on('hello', function (data) {
+        console.log(data);
+
+    });
+
+    socket.emit('hey', '我是瀏覽器:D');
+
+
+});
+
+
+
+                        </code>
+                    </pre>
+                    <p>
+                        後端也要接電話
+                    </p>
+                    <pre>
+                        <code class="javascript">
+
+// app.js
+
+//
+//  Express
+//
+
+var express = require('express');
+var http    = require('http');
+var path    = require('path');
+var io      = require('socket.io');
+
+var app = express();
+
+app.configure(function () {
+    app.use(express.static(path.join(__dirname, './public')));
+});
+
+var server = http.createServer(app);
+
+io = io.listen(server);
+
+server.listen(4000);
+
+//
+//  Socket.io
+//
+
+io.sockets.on('connection', function (socket) {
+    console.log('有人連過來了!!');
+
+    socket.emit('hello', '我是伺服器！');
+
+
+    socket.on('hey', function (data) {
+        console.log(data)
+    });
+
+})
+
+
+                        </code>
+                    </pre>
+                    <p>
+                        機器重開瀏覽器重載完之後，後端那裡應該可以看到
+                    </p>
+                    <pre>
+                        <code class="bash">
+我是瀏覽器:D
+                        </code>
+                    </pre>
+                    <p>
+                        後端還可以廣播
+                    </p>
+                    <pre>
+                        <code class="javascript">
+
+// app.js
+
+//
+//  Express
+//
+
+var express = require('express');
+var http    = require('http');
+var path    = require('path');
+var io      = require('socket.io');
+
+var app = express();
+
+app.configure(function () {
+    app.use(express.static(path.join(__dirname, './public')));
+});
+
+var server = http.createServer(app);
+
+io = io.listen(server);
+
+server.listen(4000);
+
+//
+//  Socket.io
+//
+
+io.sockets.on('connection', function (socket) {
+    console.log('有人連過來了!!');
+
+    socket.broadcast.emit('有其他人連進來了!');
+
+})
+
+
+                        </code>
+                    </pre>
+                </section>
+            </article>
+            <div id="chatroom">
+                <div id="log">
+                    <ol>
+                    </ol>
+                </div>
+                <form id="form">
+                    <input id="textbox">
+                </form>
+            </div>
+        </body>
+</html>
