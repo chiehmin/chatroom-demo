@@ -125,7 +125,7 @@ $(function () {
         $('#log ol').append('<li><span>' + ME + '</span>: ' + message + '</li>')
 
         socket.emit('message', {
-            name: 'bob',
+            name: ME,
             message: message
         });
 
