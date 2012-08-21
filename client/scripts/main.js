@@ -95,8 +95,8 @@ $(function () {
 
     socket.on('message', function (data) {
         console.log(data);
-
-        $('#log ol').append('<li><span>' + data.name + '</span>: ' + data.message + '</li>');
+		
+        $('#log').append('<div id="box"><div class="name">' + data.name + ': </div> <div class="msg">' + data.message + '</div></div>');
 
         $('#log').scrollTop(999999);
 
@@ -105,24 +105,24 @@ $(function () {
 
     socket.on('online', function (data) {
 
-        $('#log ol').append('<li><span>' + data + ' 上線了</span></li>');
+        $('#log').append('<div id="box"><div class="name">' + data + '</div><div class="online"> 上線了</div></div>');
 
         $('#log').scrollTop(999999);
 
     });
 
     socket.on('offline', function (data) {
-        $('#log ol').append('<li><span>' + data + ' 下線了</span></li>');
+        $('#log').append('<div id="box"><div class="name">' + data + '</div><div class="offline"> 下線了</div></div>');
 
         $('#log').scrollTop(999999);
 
     });
 
     $('#form').submit(function () {
-        var message = $('#textbox').val();
+        var message = _.escape($('#textbox').val());
         $('#textbox').val('');
 
-        $('#log ol').append('<li><span>' + ME + '</span>: ' + message + '</li>')
+        $('#log').append('<div id="box"><div class="name">' + ME + ': </div> <div class="msg">' + message + '</div></div>')
 
         socket.emit('message', {
             name: ME,
@@ -150,11 +150,11 @@ $(function () {
     $('#iam input').focus();
 
     $('#iam form').submit(function () {
-        ME = $('#iam input').val();
+        ME = _.escape($('#iam input').val());
 
 
         socket.emit('online', ME);
-        $('#log ol').append('<li><span>' + ME + '</span> 上線了</li>')
+        $('#log').append('<div id="box"><div class="name">' + ME + '</div><div class="online"> 上線了</div></div>');
 
         
         $('#iam').hide();

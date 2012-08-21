@@ -903,16 +903,32 @@ p {
 }
 #chatroom #log {
   height: 90%;
+  width: 100%;
   background: #fff;
   overflow: auto;
 }
-#chatroom #log li {
-  padding: 0 5px;
-  height: 40px;
-  line-height: 40px;
+#chatroom #log #box {
+  padding: 5px;
+  clear: both;
 }
-#chatroom #log li span {
+#chatroom #log .name {
   color: #777;
+  padding: 5px;
+  float: left;
+}
+#chatroom #log .msg{
+  padding: 5px;
+  float: left;
+}
+#chatroom #log .online{
+  padding: 5px;
+  float: left;
+  color: green;
+}
+#chatroom #log .offline{
+  padding: 5px;
+  float: left;
+  color: red;
 }
 #chatroom #form {
   height: 10%;
