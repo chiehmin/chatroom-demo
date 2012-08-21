@@ -5,7 +5,7 @@
                 <title>巴那那</title>
                 <link href="stylesheets/style.css" media="screen, projection" rel="stylesheet" type="text/css">
                 <link rel="stylesheet" href="http://yandex.st/highlightjs/7.1/styles/pojoaque.min.css" type="text/css">
-                <script src="scripts/highlight.js"></script>
+                <script src="http://yandex.st/highlightjs/7.1/highlight.min.js"></script>
                 <script src="scripts/jquery.js"></script>
                 <script src="/socket.io/socket.io.js"></script>
                 <script src="scripts/main.js"></script>
@@ -87,19 +87,19 @@ server.listen(4000);
                     <p>
                         放個網頁在 public 資料夾
                     </p>
-                    <pre>
-                        <code class="html">
+                    <pre class="xml">
+                        <code class="xml">
 // public/index.html
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>撲嚕嚕</title>
-    </head>
-    <body>
-        <p>hello</p>
-    </body>
-</html>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;撲嚕嚕&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;hello&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
 
                         </code>
                     </pre>
@@ -168,22 +168,22 @@ node app.js
                         現在後面機器裝好換前面了！<br>
                         在網頁裡放些 script
                     </p>
-                    <pre class="html">
-                        <code class="html">
+                    <pre>
+                        <code class="xml">
 // public/index.html
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>撲嚕嚕</title>
-        <script src="jquery.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="main.js"></script>
-    </head>
-    <body>
-        <p>hello</p>
-    </body>
-</html>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;撲嚕嚕&lt;/title&gt;
+        &lt;script src=&quot;jquery.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;main.js&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;hello&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
 
                         </code>
                     </pre>
