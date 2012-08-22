@@ -19,7 +19,7 @@ $(function () {
     var sectionHeights = [];
 
     $('section').each(function () {
-        sectionHeights.push($(this).outerHeight(true))
+        sectionHeights.push($(this).outerHeight(true));
     });
 
 
@@ -29,7 +29,7 @@ $(function () {
         $('nav li').each(function (i) {
 
             $(this).width(sectionHeights[i] * navWidth / pageHeights);
-        })
+        });
     }).resize();
 
 
@@ -42,16 +42,20 @@ $(function () {
     $('section').each(function () {
         anchorPositions.push($(this).position().top);
     })
-
+	
+	anchorPositions.push(1000000);
+	
     $(window).scroll(function (event) {
         var offset = $(this).scrollTop() + 60;
         var index = 0;
-        for (var i = 0, len = anchorPositions.length; i < len; i++) {
+        console.log('offset' + offset);
+        for (var i = 1, len = anchorPositions.length; i <= len; i++) {
             if (offset < anchorPositions[i]) {
                 index = i - 1;
                 if (index < 0) index = 0;
                 break;
             }
+            console.log(i + ' ' + anchorPositions[i]);
         }
         console.log(index)
         if (index != INDEX) {
